@@ -50,6 +50,7 @@ services:
 
 
     portal-api-data-static:
+        container_name: portal-api-data-static
         build: 
             context: static
         volumes:
@@ -59,6 +60,7 @@ services:
         
     portal-api-data-dynamic:
         image: haufelexware/wicked.portal-api:latest
+        container_name: portal-api-data-dynamic
         volumes:
             - "/var/portal-api/dynamic"
         command: "/bin/true"   
@@ -67,6 +69,7 @@ services:
     portal-api:
         env_file: variables.env  
         image: haufelexware/wicked.portal-api:latest
+        container_name: portal-api
         volumes_from:
             - "portal-api-data-static"
             - "portal-api-data-dynamic"
@@ -76,6 +79,7 @@ services:
     portal:
         env_file: variables.env  
         image: haufelexware/wicked.portal:latest
+        container_name: portal
         depends_on:
             - "portal-api"
         ports:
