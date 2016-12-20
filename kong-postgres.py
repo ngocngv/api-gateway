@@ -18,7 +18,7 @@ services:
         restart: unless-stopped
 
 
-    kong:
+    kong-api-gateway:
         image: haufelexware/wicked.kong:latest
         depends_on:
             - "kong-database"
