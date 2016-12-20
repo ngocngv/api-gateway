@@ -13,8 +13,29 @@ docker run \
     cassandra:2.2
         
         
+kongdb-data:
+    image: postgres:9.4
+    volumes:
+        - "/var/lib/postgresql/data"
+    command: "/bin/true"
+        
 
         
+kong-database:
+    image: postgres:9.4
+    volumes_from:
+        - "kongdb-data"
+    environment:
+        - "POSTGRES_USER=kong"
+        - "POSTGRES_PASSWORD=kong"
+    restart: unless-stopped
+
+
+
+
+
+
+
         
 docker run \
     -d \
