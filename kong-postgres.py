@@ -1,56 +1,43 @@
-
-
-
-# https://getkong.org/install/docker/
-
-
-
-
-docker run \
-    -d \
-    --name kong-database \
-    -p 9042:9042 \
-    cassandra:2.2
+version: '2'
+services:     
+        
+    kongdb-data:
+        image: postgres:9.4
+        volumes:
+            - "/var/lib/postgresql/data"
+        command: "/bin/true"
         
         
-kongdb-data:
-    image: postgres:9.4
-    volumes:
-        - "/var/lib/postgresql/data"
-    command: "/bin/true"
-        
-
-        
-kong-database:
-    image: postgres:9.4
-    volumes_from:
-        - "kongdb-data"
-    environment:
-        - "POSTGRES_USER=kong"
-        - "POSTGRES_PASSWORD=kong"
-    restart: unless-stopped
+    kong-database:
+        image: postgres:9.4
+        volumes_from:
+            - "kongdb-data"
+        environment:
+            - "POSTGRES_USER=kong"
+            - "POSTGRES_PASSWORD=kong"
+        restart: unless-stopped
 
 
+    kong:
+        image: haufelexware/wicked.kong:latest
+        depends_on:
+            - "kong-database"
+        security_opt:
+            - seccomp:unconfined
+        expose:
+            - "8000"
+        environment:
+            - "DATABASE=postgres"
+            - "VIRTUAL_HOST=https://${PORTAL_NETWORK_APIHOST}:443"
+            - "VIRTUAL_HOST_WEIGHT=100"
+            - "EXCLUDE_PORTS=7946,8001,8443"
+            - "EXTRA_SETTINGS=http-request set-header X-Forwarded-Port %[dst_port]"
+            - "SSL_CERT=${GATEWAY_PEM}"
+        command: "dockerize -timeout 30s -wait tcp://kong-database:5432 kong start"
+        restart: unless-stopped
 
 
 
-
-
-        
-docker run \
-    -d \
-    --name kong-api-gateway \
-    --link kong-database:kong-database \
-    -e "KONG_DATABASE=cassandra" \
-    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
-    -e "KONG_PG_HOST=kong-database" \
-    -p 8000:8000 \
-    -p 8443:8443 \
-    -p 8001:8001 \
-    -p 7946:7946 \
-    -p 7946:7946/udp \
-    kong
-        
 
         
 # 8000 – non-SSL enabled proxy layer for API requests.
@@ -60,11 +47,6 @@ docker run \
 
 # 8053 - dnsmasq     
         
-        
-        
-        
-# Kong is running:
-curl http://127.0.0.1:8001       
         
         
         
