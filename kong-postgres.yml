@@ -1,19 +1,11 @@
 version: '2'
 services:     
-    
-    kongdb-data:
-        image: postgres:9.4
-        container_name: kongdb-data
-        volumes:
-            - "/var/lib/postgresql/data"
-        command: "/bin/true"
-        
-        
+
     kong-database:
         image: postgres:9.4
         container_name: kong-database
-        volumes_from:
-            - "kongdb-data"
+        volumes:
+            - "/data/postgres:/var/lib/postgresql/data"
         ports:
             - 5432
         environment:
