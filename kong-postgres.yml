@@ -94,7 +94,15 @@ services:
         restart: unless-stopped
 
 
-
+    portal-kong-adapter:
+        env_file: variables.env  
+        image: haufelexware/wicked.portal-kong-adapter:latest
+        container_name: portal-kong-adapter
+        depends_on:
+            - "portal-api"
+            - "kong"
+        restart: unless-stopped
+        command: "npm start"
 
 
 
