@@ -3,6 +3,7 @@ services:
         
     kongdb-data:
         image: postgres:9.4
+        container_name: kongdb-data
         volumes:
             - "/var/lib/postgresql/data"
         command: "/bin/true"
@@ -10,6 +11,7 @@ services:
         
     kong-database:
         image: postgres:9.4
+        container_name: kong-database
         volumes_from:
             - "kongdb-data"
         environment:
@@ -20,6 +22,7 @@ services:
 
     kong-api-gateway:
         image: haufelexware/wicked.kong:latest
+        container_name: kong-api-gateway
         depends_on:
             - "kong-database"
         security_opt:
