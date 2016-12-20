@@ -100,7 +100,7 @@ services:
         container_name: portal-kong-adapter
         depends_on:
             - "portal-api"
-            - "kong-api-gateway1"
+            - "kong-api-gateway"
         restart: unless-stopped
         command: "npm start"
 
