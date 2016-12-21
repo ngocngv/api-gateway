@@ -5,7 +5,7 @@ services:
         image: postgres:9.4
         container_name: kong-database
         volumes:
-            - "/data/postgres:/var/lib/postgresql/data"
+            - "/data/api-gateway/postgres:/var/lib/postgresql/data"
         ports:
             - 5432
         environment:
@@ -40,31 +40,14 @@ services:
         restart: unless-stopped
 
 
-
-    portal-api-data-static:
-        container_name: portal-api-data-static
-        build: 
-            context: static
-        volumes:
-            - "/var/portal-api/static"
-        command: "/bin/true"        
-        
-        
-    portal-api-data-dynamic:
-        image: haufelexware/wicked.portal-api:latest
-        container_name: portal-api-data-dynamic
-        volumes:
-            - "/var/portal-api/dynamic"
-        command: "/bin/true"   
-        
         
     portal-api:
         env_file: variables.env  
         image: haufelexware/wicked.portal-api:latest
         container_name: portal-api
-        volumes_from:
-            - "portal-api-data-static"
-            - "portal-api-data-dynamic"
+        volumes:
+            - "/data/api-gateway/portal-api-data-static/:/var/portal-api/static/"
+            - "/data/api-gateway/portal-api-data-dynamic/:/var/portal-api/dynamic/"
         restart: unless-stopped
 
 
