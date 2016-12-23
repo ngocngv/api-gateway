@@ -97,5 +97,42 @@ curl -i -X GET -H "host: api.test.io" -H "x-auth: testkey" http://127.0.0.1:8000
 
 
 
+# rate-limiting Configuration
+#----------------------------------------------------------------------------------------------------------------
+
+
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/{api}/plugins \
+    --data "name=rate-limiting" \
+    --data "config.second=5" \
+    --data "config.hour=10000"
+
+
+#
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/test.io/plugins \
+    --data "name=rate-limiting" \
+    --data "config.second=2" \
+    --data "config.minute=5" \
+    --data "config.hour=1000" \
+    --data "config.day=50000"
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
