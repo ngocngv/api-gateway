@@ -123,7 +123,7 @@ curl -i -X POST \
 
 
 
-# acl Configuration
+# /acl/ Configuration
 #----------------------------------------------------------------------------------------------------------------
 
 curl -i -X POST \
@@ -161,5 +161,46 @@ curl -i -X POST \
 
     
     
-    
-    
+# /galileo/ Configuration    
+#----------------------------------------------------------------------------------------------------------------
+
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/{api}/plugins/ \
+    --data "name=galileo" \
+    --data "config.service_token=YOUR_SERVICE_TOKEN"
+
+
+
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/test.io/plugins/ \
+    --data "name=galileo" \
+    --data "config.service_token=tokentest"
+
+
+
+
+
+
+# /bot-detection/ Configuration    
+#----------------------------------------------------------------------------------------------------------------
+
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/{api}/plugins \
+    --data "name=bot-detection"
+
+
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/test.io/plugins \
+    --data "name=bot-detection"
+
+
+
+# User-Agent
+# https://github.com/Mashape/kong/blob/master/kong/plugins/bot-detection/rules.lua
+
+
+
+
+
+
+
