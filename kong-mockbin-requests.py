@@ -123,16 +123,43 @@ curl -i -X POST \
 
 
 
+# acl Configuration
+#----------------------------------------------------------------------------------------------------------------
+
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/{api}/plugins \
+    --data "name=acl" \
+    --data "config.whitelist=group1, group2"
 
 
 
 
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/test.io/plugins \
+    --data "name=acl" \
+    --data "config.whitelist=group1, group2"
+    
+    
+# curl -X GET http://127.0.0.1:8001/apis/test.io/plugins   
 
 
 
+# Associating Consumers:
+curl -i -X POST \
+    --url http://127.0.0.1:8001/consumers/{consumer}/acls \
+    --data "group=group1"
+
+
+curl -i -X POST \
+    --url http://127.0.0.1:8001/consumers/testio/acls \
+    --data "group=group1"
+    
+    
+# curl -X GET http://127.0.0.1:8001/consumers/testio/acls  
 
 
 
-
-
-
+    
+    
+    
+    
