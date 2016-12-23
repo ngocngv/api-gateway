@@ -77,6 +77,13 @@ curl -i -X POST \
     --data "key=testkey"
     
     
+curl -i -X POST \
+    --url http://127.0.0.1:8001/consumers/testio/key-auth \
+    --data "key=testkey01"
+    
+    
+    
+    
 # test
 curl -X GET http://127.0.0.1:8001/consumers/testio/key-auth
 
