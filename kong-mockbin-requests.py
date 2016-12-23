@@ -27,7 +27,7 @@ curl -i -X POST \
 
 
 # test
-curl -i -X GET http://127.0.0.1:8000/api-test -d "Host: api.test.io" 
+curl -i -X GET http://127.0.0.1:8000/api-test -H "Host: api.test.io" 
 
 
 
@@ -50,6 +50,7 @@ curl -i -X POST \
 # Step 3: Create a Consumer
 #-----------------------------------------------------------------------------------------------------
 
+# Create a Consumer:
 curl -X POST http://localhost:8001/consumers \
     -d "username=loop-back-consumer"
 
@@ -69,13 +70,23 @@ curl -i -X POST \
 
 
 
+# Create an API Key:
+curl -i -X POST \
+    --url http://127.0.0.1:8001/consumers/testio/key-auth \
+    --data "key=testkey"
+    
+    
+# test
+curl -X GET http://127.0.0.1:8001/consumers/testio/key-auth
 
-
-
-
-
-
-
+curl -i -X GET http://127.0.0.1:8000/api-test -H "host: api.test.io" -H "x-auth: testkey"
 
 
   
+
+
+
+
+
+
+
