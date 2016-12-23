@@ -5,6 +5,7 @@
 
 
 # Step 1: Create the "loop-back" API
+#-----------------------------------------------------------------------------------------------------
 
 curl -X POST http://127.0.0.1:8001/apis \
     -d "name=admin-loop-back" \
@@ -30,7 +31,51 @@ curl -i -X GET http://127.0.0.1:8000/api-test -d "Host: api.test.io"
 
 
 
+# Step 2: Add API Key Authentication
+#-----------------------------------------------------------------------------------------------------
 
-  
-  
+curl -X POST http://localhost:8001/apis/admin-loop-back/plugins \
+    -d "name=key-auth"
+
+    
+#
+curl -i -X POST \
+    --url http://127.0.0.1:8001/apis/test.io/plugins \
+    --data "name=key-auth" \
+    --data "config.key_names=X-AUTH"
+
+
+
+
+# Step 3: Create a Consumer
+#-----------------------------------------------------------------------------------------------------
+
+curl -X POST http://localhost:8001/consumers \
+    -d "username=loop-back-consumer"
+
+
+#
+curl -i -X POST \
+    --url http://127.0.0.1:8001/consumers/ \
+    --data "username=<USERNAME>" \
+    --data "custom_id=<CUSTOM_ID>"
+
+
+curl -i -X POST \
+    --url http://127.0.0.1:8001/consumers/ \
+    --data "username=testio" \
+    --data "custom_id=123456"
+
+
+
+
+
+
+
+
+
+
+
+
+
   
